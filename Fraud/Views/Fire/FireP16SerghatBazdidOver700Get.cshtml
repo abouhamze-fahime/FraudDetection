@@ -1,0 +1,241 @@
+﻿
+@{
+    ViewBag.IndexText = "قانون شماره یک آتش سوزی";
+}
+@section Style{
+
+    <link rel="stylesheet" type="text/css" href="/DataTables/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTables-1.11.2/css/jquery.dataTables.yadcf.css" />
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTableCustom.css" />
+    <link href="/dist/css/persianDatepicker-default.css" rel="stylesheet" />
+}
+
+
+<div class="card text-center">
+
+    <div class="card-header bg-secondary row">
+        <span class="btn btn-primary" onclick="showModal()">
+            نمایش قوانین
+        </span>
+        <div class="col-md-9">
+            شاخص 16-صدور آتش سوزی: کنترل بازدید کنترل پوشش سرقت بیش از700 میلیون ریال
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div style="width:100%;height:800px;cursor:pointer">
+            <table id="SP4" class="table  table-fixed table-striped table-hover  overflow-y:scroll;">
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted"></div>
+</div>
+
+<form method="post" asp-controller="Fire" asp-action="ExportFireP16SerghatBazdidOver700ToExcel" class="mr-3">
+    <input type="submit" id="GetExcel" value="انتقال به اکسل" class="btn btn-primary row" />
+</form>
+
+<div class="modalcontent">
+    <partial name="/Views/Rules/_Rules.cshtml" />
+</div>
+
+
+@section Scripts{
+
+    <script src="/dist/js/persianDatepicker.js"></script>
+    <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="/DataTables/DataTables-1.11.2/js/jquery.dataTables.yadcf.js"></script>
+    <script type="text/javascript" src="/DataTables/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/DataTables/dataTables.fixedHeader.min.js"></script>
+
+
+    <script>
+
+        var tableData;
+        var dataTable;
+        $(document).ready(function () {
+            loadDataTable();
+        });
+
+        function loadDataTable() {
+
+            //import { ConstPartDataTable } from "../../wwwroot/DataTables/js/CommonDataTable.js";
+            //const funcs = {
+            //    ConstPartDataTable
+            //};
+            $(".yadcf-filter-range-date").persianDatepicker();
+            dataTable = $('#SP4').DataTable({
+                /* funcs,*/
+                /**/
+         @Html.Partial("../Rules/_DataTableConfigPartial")
+
+        columnDefs: [{ orderable: false, targets: [15] }],
+        "ajax": {
+            "url": "FireP16SerghatBazdidOver700Post",
+            "type": "POST",
+            "datatype": "json"
+        },
+        "columns": [
+            { "data": "Status", "name": "Status", "visible": false },
+            { "data": "StatusName", "title": "وضعیت پرونده", "name": "StatusName", "visible": true },
+            { "data": "PolicyId", "searchable": true, "title": "کد رایانه بیمه نامه", "name": "PolicyId", "autoWidth": true },
+            { "data": "Bno", "searchable": true, "title": "شماره بیمه نامه", "name": "Bno", "autoWidth": true },
+            { "data": "ElhNo", "searchable": true, "title": "شماره الحاقیه", "name": "ElhNo", "autoWidth": true },
+            { "data": "BnSodurDateMiladi", "searchable": true, "title": "تاریخ صدور بیمه نامه", "name": "BnSodurDateMiladi", "autoWidth": true, "render": getBnSodurDateMiladi },
+            { "data": "ReshteName", "searchable": true, "title": "رشته", "name": "ReshteName", "autoWidth": true },
+            { "data": "Sarmaye", "searchable": true, "title": "سرمایه", "name": "Sarmaye", "autoWidth": true },
+            { "data": "CustomerName", "searchable": true, "title": "بیمه گذار", "name": "CustomerName", "autoWidth": true },
+            { "data": "Nationalcode", "searchable": true, "title": "کدملی", "name": "Nationalcode", "autoWidth": true },
+            { "data": "AgentName", "searchable": true, "title": "واحد معرف", "name": "AgentName", "autoWidth": true },
+            { "data": "SodurName", "searchable": true, "title": "واحد صدور", "name": "SodurName", "autoWidth": true },
+            { "data": "BranchName", "searchable": true, "title": "شعبه واحد صدور", "name": "BranchName", "autoWidth": true },
+            { "data": "UserName", "searchable": true, "title": "کاربر ثبت بیمه نامه", "name": "UserName", "autoWidth": true },
+            { "data": "RiskTabagh", "searchable": true, "title": "طبقه ریسک", "name": "RiskTabagh", "autoWidth": true },
+            {
+                "data": "Id",
+                "render": function (data, type, full, meta) {
+                    return `<div class="text-center"> <a class="btn btn-info" onclick="GetComment(` + data + `)"   >نظرات</a> </div> `;
+                }
+            }
+        ]
+        , "createdRow": function (row, data, dataIndex) {
+            if (data.Status == 1) {
+                $(row).css({ "background": "#e5da1a" });
+            }
+
+            if (data.Status == 2) {
+                $(row).css({ "background": "#f67a09" });
+
+            }
+            if (data.Status == 3) {
+                $(row).css({ "background": "#df2b20" });
+
+            }
+            if (data.Status == 4) {
+                $(row).css({ "background": "#9ACD32" });
+            }
+        },
+        "rowCallback": function (row, data) {
+            $(row).dblclick(function () { GetComment(data.Id) });
+        }
+    });
+
+
+    yadcf.init(dataTable, [
+        {
+            column_number: 1,
+            filter_type: "text"
+        }
+        ,
+        {
+            column_number: 2,
+            filter_type: "text"
+        },
+        {
+            column_number: 3,
+            filter_type: "text"
+        },
+        {
+            column_number: 4,
+            filter_type: "text"
+        },
+        {
+            column_number: 5,
+            filter_type: "range_date",
+            filter_delay: 2000
+        },
+        {
+            column_number: 6,
+            filter_type: "text"
+
+        },
+        {
+            column_number: 7,
+            filter_type: "text"
+        },
+        {
+            column_number: 8,
+            filter_type: "text"
+        },
+        {
+            column_number: 9,
+            filter_type: "text"
+        },
+        {
+            column_number: 10,
+            filter_type: "text"
+        },
+        {
+            column_number: 11,
+            filter_type: "text"
+        },
+        {
+            column_number: 12,
+            filter_type: "text"
+        },
+        {
+            column_number: 13,
+            filter_type: "text"
+        },
+        {
+            column_number: 14,
+            filter_type: "text"
+        }
+    ]);
+}
+
+
+
+
+function getBnSodurDateMiladi(data, type, full, meta) {
+    return full.BnSodurDate;
+}
+
+
+
+function GetComment(id) {
+    window.location.href = '/Fire/FireP16SerghatBazdidOver700AddcmtGet/' + id;
+}
+
+//$(document).ajaxComplete(function (event, request, settings) {
+//    console.log(settings)
+//    if (settings.url.indexOf('SalesP1LessPishPardakhtPost') > -1)
+//    datatableParam = settings.data;
+//});
+
+
+var datatableParam;
+var counter = 0;
+var counterB = 0;
+$(document).ajaxSend(function (event, request, settings) {
+    // console.log(settings)
+    if (settings.url.indexOf('FireP16SerghatBazdidOver700Post') > -1) {
+        datatableParam = settings.data;
+        console.log("datatableParamS", counterB++, datatableParam)
+    }
+});
+
+
+$("#GetExcel").click(function () {
+    setExcellData();
+    $(this).closest('form').submit();
+});
+function setExcellData() {
+    $.post({
+        type: 'POST',
+        url: '/Fire/FireP16SerghatBazdidOver700ToExcel',
+        data: datatableParam,
+        dataType: 'json',
+        success: function (data) {
+        }
+    });
+}
+
+
+    </script>
+
+}
+
+
+

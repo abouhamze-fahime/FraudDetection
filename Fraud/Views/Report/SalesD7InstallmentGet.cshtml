@@ -1,0 +1,396 @@
+﻿
+@section Style{
+
+    <link rel="stylesheet" type="text/css" href="/DataTables/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTables-1.11.2/css/jquery.dataTables.yadcf.css" />
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTableCustom.css" />
+    <link href="/dist/css/persianDatepicker-default.css" rel="stylesheet" />
+
+}
+
+
+
+<div class="card text-center">
+
+    <div class="card-header bg-secondary row">
+        <span class="btn btn-primary" onclick="showModal('dsaasdf')">
+            نمایش قوانین
+        </span>
+        <div class="col-md-9">
+            شاخص 7-خسارت ثالث: تاریخ اقساط _تاریخ واریزیها
+        </div>
+    </div>
+
+
+
+
+
+    <div class="card-body">
+        <div style="width:100%;height:800px;cursor:pointer">
+            <table id="demoGrid" class="table  table-fixed table-striped table-hover  overflow-y:scroll;">
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+    </div>
+</div>
+
+<form method="post" asp-controller="Report" asp-action="ExportSalesD7InstallmentWithHvToExcel" class="mr-3">
+    <input type="submit" id="GetExcel" value="انتقال به اکسل" class="btn btn-primary row" />
+</form>
+
+<div class="modalcontent">
+    <partial name="/Views/Rules/_Rules.cshtml" />
+</div>
+
+
+@section Scripts{
+
+    <script src="/dist/js/persianDatepicker.js"></script>
+    <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="/DataTables/DataTables-1.11.2/js/jquery.dataTables.yadcf.js"></script>
+    <script type="text/javascript" src="/DataTables/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/DataTables/dataTables.fixedHeader.min.js"></script>
+    <script>
+
+        var dataTable;
+        $(document).ready(function () {
+            loadDataTable();
+        });
+
+
+        function loadDataTable() {
+            $(".yadcf-filter-range-date").persianDatepicker();
+
+            dataTable = $('#demoGrid').DataTable({
+                serverSide: true,
+                processing: true,
+                //searchDelay: 500,
+                pageLength: 10,
+                infoFiltered: true,
+                orderMulti: false,
+                scrollX: true,
+                scrollY: true,
+                bStateSave: true,
+                columnDefs: [{ orderable: false, targets: [26] }],
+                //columns: columnDefs1,
+                //fixedColumns: {
+                //    left: 1,
+                //    right: 1
+                //},
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "هیچ اطلاعاتی در دسترس نیست",
+                    "info": "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    "infoEmpty": "نمایش 0 تا 0 از 0 رکورد",
+                    "infoFiltered": "(فیلتر شده از _MAX_ همه اطلاعات)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": " تعداد در صفحه _MENU_ ",
+                    "loadingRecords": "در حال بارگذاری...",
+                    "processing": "در حال پردازش...",
+                    "search": "جستجو : ",
+                    "zeroRecords": "هیچ اطلاعاتی یافت نشد",
+                    "paginate": {
+                        "first": "اولین",
+                        "last": "آخرین",
+                        "next": "بعدی",
+                        "previous": "قبلی"
+                    },
+                    "aria": {
+                        "sortAscending": " : فعال سازی مرتب سازی ستون به صورت صعودی",
+                        "sortDescending": " : فعال سازی مرتب سازی ستون به صورت نزولی"
+                    }
+                },
+                "ajax": {
+                    "url": "SalesD7InstallmentGetPost",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "Id", "name": "Id", "visible": false },
+                    { "data": "Status", "title": "کد وضعیت پرونده", "name": "Status", "visible": false },
+                    { "data": "StatusName", "title": "وضعیت پرونده", "name": "StatusName", "visible": true },
+                    { "data": "PrmSrdId", "searchable": true, "title": "کد دریافت", "name": "PrmSrdId", "autoWidth": true },
+                    { "data": "PolicyId", "searchable": true, "title": "کد رایانه بیمه نامه", "name": "PolicyId", "autoWidth": true },
+                    { "data": "Bno", "searchable": true, "title": "شماره بیمه نامه", "name": "Bno", "autoWidth": true },
+                    { "data": "ElhNo", "searchable": true, "title": "شماره الحاقیه", "name": "ElhNo", "autoWidth": true },
+                    { "data": "AgentName", "searchable": true, "title": "نام نماینده", "name": "AgentName", "autoWidth": true },
+                    { "data": "SodurName", "searchable": true, "title": "واحد صدور", "name": "SodurName", "autoWidth": true },
+                    { "data": "BranchName", "searchable": true, "title": "شعبه صدور بیمه نامه", "name": "BranchName", "autoWidth": true },
+                    { "data": "CustomerName", "searchable": true, "title": "بیمه گذار", "name": "CustomerName", "autoWidth": true },
+                    { "data": "BeginDateMiladi", "searchable": true, "title": "تاریخ شروع", "autoWidth": true, "render": getBeginDateMiladi },
+                    { "data": "EndDateMiladi", "searchable": true, "title": "تاریخ پایان", "autoWidth": true, "render": getEndDateMiladi},
+                    { "data": "BnSodurDateMiladi", "searchable": true, "title": "تاریخ صدور", "name": "BnSodurDateMiladi", "autoWidth": true, "render": getBnSodurDateMiladi},
+                    { "data": "SrdDateMiladi", "searchable": true, "title": "تاریخ سررسید", "name": "SrdDate", "autoWidth": true, "render": getSrdDateMiladi },
+                    { "data": "OpDateMiladi", "searchable": true, "title": "تاریخ عملیات", "name": "OpDate", "autoWidth": true, "render": getOpDateMiladi },
+                    { "data": "TasvieType", "searchable": true, "title": "نوع تسویه", "name": "TasvieType", "autoWidth": true },
+                    { "data": "SrdAmountAsRial", "searchable": true, "title": "مبلغ قسط ", "name": "SrdAmountAsRial", "autoWidth": true, render: $.fn.dataTable.render.number(',', 0)},
+                    { "data": "TasvieAmount", "searchable": true, "title": "مبلغ تسویه ", "name": "TasvieAmount", "autoWidth": true, render: $.fn.dataTable.render.number(',', 0) },
+                    { "data": "AmaliatTasvieType", "searchable": true, "title": "نوع عملیات", "name": "AmaliatTasvieType", "autoWidth": true },
+                    { "data": "CreditType", "searchable": true, "title": "نوع تراکنش", "name": "CreditType", "autoWidth": true },
+                    { "data": "PrvDateMiladi", "searchable": true, "title": "تاریخ پرونده", "name": "PrvDate", "autoWidth": true, "render": getPrvDateMiladi},
+                    { "data": "HadeseDateMiladi", "searchable": true, "title": "تاریخ حادثه", "name": "HadeseDate", "autoWidth": true, "render": getHadeseDateMiladi},
+                    { "data": "ElamDateMiladi", "searchable": true, "title": "تاریخ اعلام", "name": "ElamDate", "autoWidth": true, "render": getElamDateMiladi},
+                    { "data": "PrvNo", "searchable": true, "title": "شماره پرونده", "name": "PrvNo", "autoWidth": true },
+                    { "data": "HvAmount", "searchable": true, "title": "مبلغ حواله", "name": "HvAmount", "autoWidth": true , render: $.fn.dataTable.render.number(',', 0)},
+                    { "data": "VslStateDateMiladi", "searchable": true, "title": "تاریخ وصول", "name": "VslStateDate", "autoWidth": true, "render": getVslStateDateMiladi},
+                    { "data": "DeliverDateMiladi", "searchable": true, "title": "تاریخ تحویل ", "name": "DeliverDate", "autoWidth": true, "render": getDeliverDateMiladi},
+                    { "data": "RcvdKindName", "searchable": true, "title": "نوع دریافت", "name": "BnUserName", "autoWidth": true },
+                    { "data": "VslStateName", "searchable": true, "title": "وضعیت وصول", "name": "LastBnEndDate", "autoWidth": true },
+                    {
+                        "data": "Id",
+                        "render": function (data, type, full, meta) {
+                            return `<div class="text-center"> <a class="btn btn-info" href="/Report/SalesD7InstallmentWithHvAddcmtGet/${data}"   >نظرات</a> </div> `;
+                        }
+                    }
+                ], "createdRow": function (row, data, dataIndex) {
+                    if (data.Status == 1) {
+                        $(row).css({ "background": "#e5da1a" });
+                    }
+
+                    if (data.Status == 2) {
+                        $(row).css({ "background": "#f67a09" });
+
+                    }
+                    if (data.Status == 3) {
+                        $(row).css({ "background": "#df2b20" });
+
+                    }
+                    if (data.Status == 4) {
+                        $(row).css({ "background": "#9ACD32" });
+                    }
+                },
+                "rowCallback": function (row, data) {
+                    $(row).dblclick(function () { GetComment(data.Id) });
+                }
+            });
+            yadcf.init(dataTable, [
+               
+                {
+                    column_number: 2,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 3,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 4,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 5,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 6,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 7,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 8,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 9,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 10,
+                    filter_type: "text",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 11,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 12,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 13,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 14,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 15,
+                    filter_type: "range_date"
+                },
+                {
+                    column_number: 16,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 17,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 18,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 19,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 20,
+                    filter_type: "text",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 21,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 22,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 23,
+                    filter_type: "range_date"
+                },
+                {
+                    column_number: 24,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 25,
+                    filter_type: "text",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 26,
+                    filter_type: "range_date",
+                    filter_delay: 2000
+                },
+                {
+                    column_number: 27,
+                    filter_type: "range_date"
+                },
+                {
+                    column_number: 28,
+                    filter_type: "text"
+                },
+                {
+                    column_number: 29,
+                    filter_type: "text"
+                },
+
+                //, {
+                //    column_number: 3,
+                //    filter_type: "auto_complete",
+                //    text_data_delimiter: ","
+                //}, {
+                //    column_number: 4,
+                //    column_data_type: "html",
+                //    html_data_type: "text",
+                //    filter_default_label: "Select tag"
+                //    }
+            ]);
+        }
+        function getBeginDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.BeginDate;
+        }
+        function getEndDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.EndDate;
+        }
+        function getBnSodurDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.BnSodurDate;
+        }
+        function getSrdDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.SrdDate;
+        }
+        function getOpDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.OpDate;
+        }
+        function getPrvDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.PrvDate;
+        }
+        function getHadeseDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.HadeseDate;
+        }
+        function getElamDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.ElamDate;
+        }
+        function getVslStateDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.VslStateDate;
+        }
+        function getDeliverDateMiladi(data, type, full, meta) {
+            //console.log(data, type, full, meta);
+            return full.DeliverDate;
+        }
+
+ 
+
+        function GetDetail(id) {
+            window.location.href = '/Report/SalesDataListDetail/' + id;
+        }
+
+        function GetComment(id) {
+            window.location.href = '/Report/SalesD7InstallmentWithHvAddcmtGet/' + id;
+        }
+
+      
+        //$(document).ajaxComplete(function (event, request, settings) {
+        //    console.log(settings)
+        //    if (settings.url.indexOf('SalesD7InstallmentGetPost') > -1)
+        //        datatableParam = settings.data;
+        //    console.log("datatableParam", counter++)
+        //});
+
+
+        var datatableParam;
+        var counter = 0;
+        var counterB = 0;
+        $(document).ajaxSend(function (event, request, settings) {
+           // console.log(settings)
+            if (settings.url.indexOf('SalesD7InstallmentGetPost') > -1) {
+                datatableParam = settings.data;
+                console.log("datatableParamS", counterB++, datatableParam)
+            }
+        });
+
+        $("#GetExcel").click(function () {
+            setExcellData();
+            $(this).closest('form').submit();
+        });
+        function setExcellData() {
+            $.post({
+                type: 'POST',
+                url: '/Report/SalesD7InstallmentWithHvToExcel',
+                data: datatableParam,
+                dataType: 'json',
+                success: function (data) {
+                }
+            });
+        }
+
+    </script>
+
+}
+

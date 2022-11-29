@@ -1,0 +1,143 @@
+﻿
+@{
+    ViewData["Title"] = "لیست";
+
+}
+@section Style{
+
+    <link rel="stylesheet" type="text/css" href="/DataTables/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTables-1.11.2/css/jquery.dataTables.yadcf.css" />
+    <link rel="stylesheet" type="text/css" href="/DataTables/DataTableCustom.css" />
+    <link href="/dist/css/persianDatepicker-default.css" rel="stylesheet" />
+}
+
+<div class="card text-center">
+
+    <div class="card-header bg-secondary row">
+        <span class="btn btn-primary" onclick="showModal('dsaasdf')">
+            نمایش قوانین
+        </span>
+        <div class="col-md-9">
+            شاخص 6-خسارت ثالث: ریز اطلاعات  بررسی تاریخ صدور و حادثه
+        </div>
+    </div>
+
+
+
+
+    <div class="card-body">
+        <div style="width:100%;height:800px;cursor:pointer">
+            <table id="demoGridDetail" class="table  table-fixed table-striped table-hover overflow-y:scroll;">
+            </table>
+        </div>
+    </div>
+    <div class="card-footer text-muted">
+    </div>
+</div>
+
+<div class="modalcontent">
+    <partial name="/Views/Rules/_Rules.cshtml" />
+</div>
+
+
+
+
+@section Scripts{
+
+    <script src="/dist/js/persianDatepicker.js"></script>
+    <script type="text/javascript" src="/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="/DataTables/DataTables-1.11.2/js/jquery.dataTables.yadcf.js"></script>
+    <script type="text/javascript" src="/DataTables/dataTables.fixedColumns.min.js"></script>
+    <script type="text/javascript" src="/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/DataTables/dataTables.fixedHeader.min.js"></script>
+    <script>
+
+        var dataTable;
+        $(document).ready(function () {
+            GetData();
+        });
+
+        function GetData() {
+
+            $(".yadcf-filter-range-date").persianDatepicker();
+            dataTable = $('#demoGridDetail').DataTable({
+                serverSide: true,
+                processing: true,
+                //searchDelay: 500,
+                pageLength: 10,
+                infoFiltered: true,
+                orderMulti: false,
+                scrollX: true,
+                scrollY: true,
+                bStateSave: true,
+                columnDefs: [{ orderable: false, targets: [18] }],
+                //columns: columnDefs1,
+                //fixedColumns: {
+                //    left: 1,
+                //    right: 1
+                //},
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "هیچ اطلاعاتی در دسترس نیست",
+                    "info": "نمایش _START_ تا _END_ از _TOTAL_ رکورد",
+                    "infoEmpty": "نمایش 0 تا 0 از 0 رکورد",
+                    "infoFiltered": "(فیلتر شده از _MAX_ همه اطلاعات)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": " تعداد در صفحه _MENU_ ",
+                    "loadingRecords": "در حال بارگذاری...",
+                    "processing": "در حال پردازش...",
+                    "search": "جستجو : ",
+                    "zeroRecords": "هیچ اطلاعاتی یافت نشد",
+                    "paginate": {
+                        "first": "اولین",
+                        "last": "آخرین",
+                        "next": "بعدی",
+                        "previous": "قبلی"
+                    },
+                    "aria": {
+                        "sortAscending": " : فعال سازی مرتب سازی ستون به صورت صعودی",
+                        "sortDescending": " : فعال سازی مرتب سازی ستون به صورت نزولی"
+                    }
+                },
+
+                "ajax": {
+                    url: "/Report/SalesD6DayDamageDetailPost",
+                    type: "POST",
+                    //  "contentType": "application/json",
+                    datatype: "json",
+                    //  "data": { policyId: PolicyId}
+                },
+                "columns": [
+                    { "data": "PolicyId", "searchable": true, "title": "کد رایانه بیمه نامه", "name": "PolicyId", "autoWidth": true },
+                    { "data": "BeginDate", "searchable": true, "title": "تاریخ شروع بیمه نامه", "name": "BeginDate", "autoWidth": true },
+                    { "data": "EndDate", "searchable": true, "title": "تاریخ پایان بیمه نامه", "name": "EndDate", "autoWidth": true },
+                    { "data": "HvId", "searchable": true, "title": "کد حواله", "name": "HvId", "autoWidth": true },
+                    { "data": "HvNo", "searchable": true, "title": "شماره حواله", "name": "HvNo", "autoWidth": true },
+                    { "data": "ElamDate", "searchable": true, "title": "تاریخ اعلام", "name": "ElamDate", "autoWidth": true },
+                    { "data": "HvDate", "searchable": true, "title": "تاریخ حواله", "name": "HvDate", "autoWidth": true },
+                    { "data": "SalAdamKhesaratSarneshin", "searchable": true, "title": "سال عدم خسارت سرنشین", "name": "SalAdamKhesaratSarneshin", "autoWidth": true },
+                    { "data": "SalAdamKhesaratJani", "searchable": true, "title": "سال عدم خسارت جانی", "name": "SalAdamKhesaratJani", "autoWidth": true },
+                    { "data": "SalAdamKhesaratMali", "searchable": true, "title": "سال عدم خسارت مالی", "name": "SalAdamKhesaratMali", "autoWidth": true },
+                    { "data": "PrmAmount", "searchable": true, "title": "مبلغ رکورد بیمه نامه ", "name": "PrmAmount", "autoWidth": true },
+                    { "data": "HvAmount", "searchable": true, "title": "مبلغ حواله", "name": "HvAmount", "autoWidth": true },
+                    { "data": "DamagedType", "searchable": true, "title": "نوع حادثه ", "name": "DamagedType", "autoWidth": true },
+                    { "data": "DriverName", "searchable": true, "title": "نام راننده مقصر", "name": "DriverName", "autoWidth": true },
+                    { "data": "DriverTypeName", "searchable": true, "title": "نوع راننده مقصر", "name": "DriverTypeName", "autoWidth": true },
+                    { "data": "GovahiTypeName", "searchable": true, "title": "نوع گواهی نامه ", "name": "GovahiTypeName", "autoWidth": true },
+                    { "data": "HvGirandeName", "searchable": true, "title": "نام گیرنده حواله", "name": "HvGirandeName", "autoWidth": true },
+                    { "data": "HvGirandeNationalcode", "searchable": true, "title": "کد ملی گیرنده حواله ", "name": "HvGirandeNationalcode", "autoWidth": true },
+                    { "data": "HvGirandeHvAmount", "searchable": true, "title": "مبلغ گیرنده حواله", "name": "HvGirandeHvAmount", "autoWidth": true },
+                    { "data": "MoredEstefadeName", "searchable": true, "title": "مورد استفاده ", "name": "MoredEstefadeName", "autoWidth": true },
+                    { "data": "CarGroupName", "searchable": true, "title": "گروه خودرو", "name": "CarGroupName", "autoWidth": true },
+                    { "data": "CarKindName", "searchable": true, "title": "نوع خودرو", "name": "CarKindName", "autoWidth": true },
+                    { "data": "CarModel", "searchable": true, "title": "مدل خودرو", "name": "CarModel", "autoWidth": true },
+                    { "data": "Pelak", "searchable": true, "title": "پلاک", "name": "Pelak", "autoWidth": true },
+                    { "data": "PelakKindName", "searchable": true, "title": "نوع پلاک", "name": "PelakKindName", "autoWidth": true }
+                ]
+            });
+
+        }
+    </script>
+
+}

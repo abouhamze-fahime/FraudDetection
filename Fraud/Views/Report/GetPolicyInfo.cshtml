@@ -1,0 +1,305 @@
+﻿<!--   model IEnumerable<Fraud.DB_Models.SP_PolicyPaginationResult>
+@{
+    ViewData["Title"] = "بیمه نامه ها";
+}
+
+
+<form asp-controller="Report" asp-action="GetPolicyInfo" method="get">
+    <div class="form-actions no-color">
+        <p>
+            نماینده یا واحد صدور: <input type="text" name="SearchString"  />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-controller="Report" asp-action="GetPolicyInfo">Back to Full List</a>
+        </p>
+    </div>
+</form>
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">جدول بیمه نامه های شاخص اول </h3>
+
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="جستجو">
+
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover" style="overflow:scroll;">
+                    <thead>
+                        <tr>
+                            <th>
+                                کد رایانه بیمه نامه
+                            </th>
+                            <th>
+                                شماره بیمه نامه
+                            </th>
+                            <th>
+                                شماره الحاقیه
+                            </th>
+                            <th>
+                                کد نوع الحاقیه
+                            </th>
+                            <th>
+                                نوع الحاقیه
+                            </th>
+                            <th>
+                                کد پرونده
+                            </th>
+                            <th>
+                                شماره پرونده
+                            </th>
+                            <th>
+                                کد حواله
+                            </th>
+                            <th>
+                                شماره حواله
+                            </th>
+                            <th>
+                                تاریخ صدور بیمه نامه
+
+                            </th>
+                            <th>
+                                تاریخ حادثه
+                            </th>
+                            <th>
+                                تعداد روز تفاوت
+                            </th>
+                            <th>
+                                تاریخ اعلام
+                            </th>
+                            <th>
+                                تاریخ پرونده
+                            </th>
+                            <th>
+                                تاریخ حواله
+                            </th>
+                            <th>
+                                نوع خسارت
+                            </th>
+                            <th>
+                                شماره بیمه نامه سال گذشته
+                            </th>
+                            <th>
+                                کد رایانه بیمه نامه سال گذشته
+                            </th>
+                            <th>
+                                کد شرکت بیمه سال قبل
+                            </th>
+                            <th>
+                                تاریخ شروع
+                            </th>
+                            <th>
+                                تاریخ پایان
+                            </th>
+                            <th>
+                                کد مشتری
+                            </th>
+                            <th>
+                                نام مشتری
+                            </th>
+                            <th>
+                                نام خانوادگی مشتری
+                            </th>
+                            <th>
+                                کد نمایندگی
+                            </th>
+                            <th>
+                                نام نمایندگی
+                            </th>
+                            <th>
+                                کد واحد صدور
+                            </th>
+                            <th>
+                                نام واحد صدور
+                            </th>
+                            <th>
+                                سال عدم خسارت سرنشین
+                            </th>
+                            <th>
+                                سال عدم خسارت جانی
+                            </th>
+                            <th>
+                                سال عدم خسارت مالی
+                            </th>
+                            <th>
+                                کد علت تغییر الحاقیه
+                            </th>
+                            <th>
+                                نام علت تغییر الحاقیه
+                            </th>
+                            <th>
+                                کد علت الحاقیه
+                            </th>
+                            <th>
+                                نام علت الحاقیه
+                            </th>
+                            <th>
+                                مبلغ بیمه نامه با مالیات
+                            </th>
+                            <th>
+                                مبلغ بیمه نامه بدون مالیات
+                            </th>
+                            <th>
+                                مبلغ صندوق
+                            </th>
+
+                            <th></th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @item.PolicyId
+                                </td>
+                                <td>
+                                    @item.BNo
+                                </td>
+                                <td>
+                                    @item.ElhNo
+                                </td>
+                                <td>
+                                    @item.ElhKindId
+                                </td>
+                                <td>
+                                    @item.ElhKindName
+                                </td>
+                                <td>
+                                    @item.PrvId
+                                </td>
+                                <td>
+                                    @item.PrvNo
+                                </td>
+                                <td>
+                                    @item.HvId
+                                </td>
+                                <td>
+                                    @item.HvNo
+                                </td>
+                                <td>
+                                    @item.BnSodurDate
+                                </td>
+                                <td>
+                                    @item.HadeseDate
+                                </td>
+                                <td>
+                                    @item.DateDif
+                                </td>
+                                <td>
+                                    @item.ElamDate
+                                </td>
+                                <td>
+                                    @item.PrvDate
+                                </td>
+                                <td>
+                                    @item.HvDate
+                                </td>
+                                <td>
+                                    @item.DamageType
+                                </td>
+                                <td>
+                                    @item.ExtendedBNNo
+                                </td>
+                                <td>
+                                    @item.ExtendedPolicyId
+                                </td>
+                                <td>
+                                    @item.LastBimeCompanyId
+                                </td>
+                                <td>
+                                    @item.BeginDate
+                                </td>
+                                <td>
+                                    @item.EndDate
+                                </td>
+                                <td>
+                                    @item.CustomerId
+                                </td>
+                                <td>
+                                    @item.CustomerFName
+                                </td>
+                                <td>
+                                    @item.CustomerLName
+                                </td>
+                                <td>
+                                    @item.AgentCode
+                                </td>
+                                <td>
+                                    @item.AgentName
+                                </td>
+                                <td>
+                                    @item.SodurId
+                                </td>
+                                <td>
+                                    @item.SodurName
+                                </td>
+                                <td>
+                                    @item.SalAdamKhesaratSarneshin
+                                </td>
+                                <td>
+                                    @item.SalAdamKhesaratJani
+                                </td>
+                                <td>
+                                    @item.SalAdamKhesaratMali
+                                </td>
+                                <td>
+                                    @item.ElhChangeKindId
+                                </td>
+                                <td>
+                                    @item.ElhChangeKindName
+                                </td>
+                                <td>
+                                    @item.ElhEllatId
+                                </td>
+                                <td>
+                                    @item.ElhElatName
+                                </td>
+                                <td>
+                                    @item.BnPrmWithTax
+                                </td>
+                                <td>
+                                    @item.BnPrmWithoutTax
+                                </td>
+                                <td>
+                                    @item.Sandogh
+                                </td>
+
+                                <td>
+                                    <a asp-action="Comment" asp-route-id="@item.PolicyId">توضیحات</a> |
+                                    <a asp-action="Details" asp-route-id="@item.PolicyId">Details</a> |
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</a>
+<script src="~/plugins/jquery/jquery.min.js"></script>-->
+<!-- Bootstrap 4 -->
+<!--<script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+<!-- Slimscroll -->
+<!--<script src="~/plugins/slimScroll/jquery.slimscroll.min.js"></script>-->
+<!-- FastClick -->
+<!--<script src="~/plugins/fastclick/fastclick.js"></script>-->
+<!-- AdminLTE App -->
+<!--<script src="~/dist/js/adminlte.min.js"></script>-->
+<!-- AdminLTE for demo purposes -->
+<!--<script src="~/dist/js/demo.js"></script>-->

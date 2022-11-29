@@ -1,0 +1,190 @@
+﻿@{
+    ViewData["Title"] = "خانه";
+}
+<div class="row">
+
+    <div class="col-lg-2 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3> <span id="result0"></span><sup style="font-size: 20px"></sup></h3>
+                <p>پرونده های جدید</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">اطلاعات بیشتر <i class="fa fa-arrow-circle-left"></i></a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-2 col-6">
+        <!-- small box -->
+        <div class="small-box bg-warning">
+            <div class="inner">
+                <h3><span id="result1"></span><sup style="font-size: 20px"></sup></h3>
+                <p>پرونده های عدم رعایت</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">اطلاعات بیشتر <i class="fa fa-arrow-circle-left"></i></a>
+        </div>
+    </div>
+
+
+
+    <div class="col-lg-2 col-6">
+         <div class="small-box" style="background-color:orangered">
+            <div class="inner">
+                <h3><span id="result2"></span><sup style="font-size: 20px"></sup></h3>
+                <p>پرونده های مشکوک</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">اطلاعات بیشتر <i class="fa fa-arrow-circle-left"></i></a>
+        </div>
+    </div>
+
+
+    <div class="col-lg-2 col-6">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3><span id="result3"></span><sup style="font-size: 20px"></sup></h3>
+                <p>پرونده های تقلب</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">اطلاعات بیشتر <i class="fa fa-arrow-circle-left"></i></a>
+        </div>
+    </div>
+
+   
+    <div class="col-lg-2 col-6">
+        <div class="small-box bg-success">
+            <div class="inner">
+                <h3><span id="result4"></span><sup style="font-size: 20px"></sup></h3>
+                <p>پرونده های مختوم شده</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">اطلاعات بیشتر <i class="fa fa-arrow-circle-left"></i></a>
+        </div>
+    </div>
+   
+
+
+    <div class="col-lg-2 col-6">
+        <div class="small-box bg-info">
+            <div class="inner">
+                <h3> <span id="result5">1</span><sup style="font-size: 20px"></sup></h3>
+                <p>صحت سنجی</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">اطلاعات بیشتر <i class="fa fa-arrow-circle-left"></i></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <section class="col-md-12 connectedSortable">
+        <!-- Custom tabs (Charts with tabs)-->
+        <div class="card" style=" height: 100%;">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">
+                    <i class="fa fa-pie-chart mr-1"></i>
+                    وضعیت پرونده های حسابرسی
+
+                </h3>
+                <ul class="nav nav-pills mr-auto p-2">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">نمودار</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="tab-content p-0">
+                    نمودار خطی تعداد پرونده
+                    <div class="chart tab-pane active" id="revenue-chart"
+                         style="position: relative; height: 300px;"></div>
+                    @*<div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>*@
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+    </section>
+
+</div>
+
+@*<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/GetResultTestData',
+            data: { id: 0 },
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                $('#result0').html(result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+            }// add the success to pass the result
+        });
+    });
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/GetResultTestData',
+            data: { id: 1 },
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                $('#result1').html(result);
+            }// add the success to pass the result
+        });
+    });
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/GetResultTestData',
+            data: { id: 2 },
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                $('#result2').html(result);
+            }// add the success to pass the result
+        });
+    });
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/GetResultTestData',
+            data: { id: 3 },
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                $('#result3').html(result);
+            }// add the success to pass the result
+        });
+    });
+    $(document).ready(function () {
+        $.ajax({
+            url: '/Home/GetResultTestData',
+            data: { id: 4 },
+            type: 'GET',
+            contentType: 'application/json; charset=utf-8',
+            success: function (result) {
+                $('#result4').html(result);
+            }// add the success to pass the result
+        });
+    });
+</script>

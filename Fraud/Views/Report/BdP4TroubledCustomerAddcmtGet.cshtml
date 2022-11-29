@@ -1,0 +1,301 @@
+﻿@model Fraud.Models.Car.BdP4TroubledCustomerViewModel
+
+@{
+    ViewData["Title"] = "اضافه کردن نظرات";
+
+}
+@section Style{
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+    <link href='custom.css' rel='stylesheet' type='text/css'>
+}
+
+<body class="rtl">
+
+    <div dir="rtl">
+
+        <div class="row" dir="rtl">
+
+            <div class="col-xl-8 offset-xl-2 py-5">
+
+                <h1>مشاهده اطلاعات و ارائه نظرات </h1>
+
+                <p class="lead">شما می توانید برای هر رکورد نظرات کارشناسی خود را درج نمایید</p>
+
+
+                <form id="contact-form" method="post" role="form" dir="rtl">
+                    <input asp-for="Id" hidden />
+                    <div class="messages"></div>
+
+                    <div class="controls">
+
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>کد رایانه بیمه نامه</label>
+                                    <input id="form_PolicyId" asp-for="PolicyId" disabled class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>شماره بیمه نامه</label>
+                                    <input id="form_Bno" type="text" class="form-control" disabled asp-for="Bno">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>واحد معرف</label>
+                                    <input id="form_AgentName" type="text" class="form-control" disabled asp-for="AgentName">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>واحد صدور</label>
+                                    <input id="form_BnSodurName" type="text" class="form-control" disabled asp-for="BnSodurName">
+                                </div>
+                            </div>
+                        </div>
+                      
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>شعبه واحد صدور</label>
+                                    <input id="form_BranchName" asp-for="BranchName" disabled class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>کد بیمه گذار</label>
+                                    <input id="form_CustomerId" asp-for="CustomerId" disabled class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>بیمه گذار</label>
+                                    <input id="form_CustomerName" type="text" class="form-control" disabled asp-for="CustomerName">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>کد ملی</label>
+                                    <input id="form_CodeMelli" type="text" class="form-control" disabled asp-for="CodeMelli">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>کد پستی</label>
+                                    <input id="form_CodePosti" type="text" class="form-control" disabled asp-for="CodePosti">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>آدرس</label>
+                                    <input id="form_Address" asp-for="Address" disabled class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>موبایل</label>
+                                    <input id="form_Mobile" type="text" class="form-control" disabled asp-for="Mobile">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>وضعیت پرونده</label>
+                                    <input id="form_StatusName" type="text" class="form-control" disabled asp-for="StatusName">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>نظرات کارشناسی</label>
+                                    <textarea id="form_Comment" name="Comment" class="form-control" rows="5" asp-for="Comment"></textarea>
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 ">
+                                <div class="btn-toolbar" role="toolbar">
+                                    <input id="Comment_btn1" type="button" class="btn btn-send mr-2" style="background-color: #e5da1a" value="عدم رعایت">
+                                    <input id="Comment_btn2" type="button" class="btn btn-send mr-2" style="background-color: #f67a09" value="مشکوک ">
+                                    <input id="Comment_btn3" type="button" class="btn btn-send mr-2" style="background-color: #df2b20" value="تقلب">
+                                    <input id="Comment_btn4" type="button" class="btn btn-send mr-2" style="background-color: #9ACD32" value="مختومه">
+
+                                    <input id="btn-backFromSubmit" type="button" class="btn btn-danger btn-send mr-2" value="برگشت از تایید">
+                                    <input id="btn-back" type="button" class="btn btn-warning btn-send mr-2" value="بازگشت">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="contact.js"></script>
+    <script src="sweetalert2.all.min.js"></script>
+
+
+    <script>
+
+        function setOperation(status) {
+            switch (status) {
+                case "1":
+                    document.getElementById("Comment_btn1").disabled = true;
+                    document.getElementById("form_Comment").disabled = false;
+                    document.getElementById("Comment_btn1").disabled = false;
+                    break;
+            }
+        }
+
+        $("#btn-backFromSubmit").click(function () {
+            document.getElementById("form_Comment").disabled = false;
+            document.getElementById("Comment_btn1").disabled = false;
+        });
+
+        $(document).on("click", "#Comment_btn1", function () {
+            $.ajax({
+                url: '/Report/BdP4TroubledCustomerAddcmtPost',
+                data: JSON.stringify({
+                    Comment: $("#form_Comment").val(),
+                    Id: $("form #Id").val(),
+                    Status: 1
+
+
+                }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    // debugger;
+                    if (data.success) {
+                        setOperation("1");
+                        if (document.getElementById("form_Comment").value != '') {
+                            document.getElementById("form_Comment").disabled = true;
+                        }
+                        alert(data.message);
+                        document.getElementById("Comment_btn1").disabled = true;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            })
+        });
+
+        $(document).on("click", "#Comment_btn2", function () {
+            $.ajax({
+                url: '/Report/BdP4TroubledCustomerAddcmtPost',
+                data: JSON.stringify({
+                    Comment: $("#form_Comment").val(),
+                    Id: $("form #Id").val(),
+                    Status: 2
+                }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    debugger;
+                    if (data.success) {
+                        setOperation("2");
+                        if (document.getElementById("form_Comment").value != '') {
+                            document.getElementById("form_Comment").disabled = true;
+                        }
+                        alert(data.message);
+                        document.getElementById("Comment_btn2").disabled = true;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            })
+        });
+
+        $(document).on("click", "#Comment_btn3", function () {
+            $.ajax({
+                url: '/Report/BdP4TroubledCustomerAddcmtPost',
+                data: JSON.stringify({
+                    Comment: $("#form_Comment").val(),
+                    Id: $("form #Id").val(),
+                    Status: 3
+                }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    debugger;
+                    if (data.success) {
+                        setOperation("3");
+                        if (document.getElementById("form_Comment").value != '') {
+                            document.getElementById("form_Comment").disabled = true;
+                        }
+                        alert(data.message);
+                        document.getElementById("Comment_btn3").disabled = true;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            })
+        });
+
+        $(document).on("click", "#Comment_btn4", function () {
+            $.ajax({
+                url: '/Report/BdP4TroubledCustomerAddcmtPost',
+                data: JSON.stringify({
+                    Comment: $("#form_Comment").val(),
+                    Id: $("form #Id").val(),
+                    Status: 4
+                }),
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    debugger;
+                    if (data.success) {
+                        setOperation("3");
+                        if (document.getElementById("form_Comment").value != '') {
+                            document.getElementById("form_Comment").disabled = true;
+                        }
+                        alert(data.message);
+                        document.getElementById("Comment_btn3").disabled = true;
+                    } else {
+                        alert(data.message);
+                    }
+                }
+            })
+        });
+
+
+        if (document.getElementById("form_Comment").value != '') {
+            document.getElementById("form_Comment").disabled = true;
+            document.getElementById("Comment_btn1").disabled = true;
+        }
+
+
+        $(document).on("click", "#btn-back", function () {
+            window.location.href = '/Report/BdP4TroubledCustomerGet';
+        });
+    </script>
+</body>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js" integrity="sha256-dHf/YjH1A4tewEsKUSmNnV05DDbfGN3g7NMq86xgGh8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="contact.js"></script>
+
+}

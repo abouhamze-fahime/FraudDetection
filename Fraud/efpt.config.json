@@ -1,0 +1,115 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "FruddataContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "DB_Models",
+   "ProjectRootNamespace": "Fraud",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[cmn].[ReportFromAllTable]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP01_TroubledCodePosti]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP03_BnNoLastPolicyId]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP04_TafkikList]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP06_AfzayeshSarmaye]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP07_AnbarBazdid]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP08_AsaBazdid]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP09_MaskanBazdid]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP10_GheirSanatiBazdidOver10]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP11_GheirSanatiBazdidOver80]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP12_AnbarBazdidOver10]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP13_SanatiBazdidOver20]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP14_SanatiAnbarBazdidSpecialGroup]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP15_BazdidSpecialGroupOver30]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP16_SerghatBazdidOver700]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP17_SpecialGroupBazdid]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP18_DamagedBazdid]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP19_MinPrm]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP21_CashPrmBn]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[Fr].[FireP23_CashPrmElh]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "RISKSQL.FrudData",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
